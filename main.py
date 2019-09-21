@@ -58,6 +58,8 @@ win_combinations = (
 
 
 def check():
+    if len(steps.keys()) == 9:
+        return -1
     p1 = []
     p2 = []
     for key in steps:
@@ -90,4 +92,7 @@ while win == 0:
         curPlayer = 1
     win = check()
 else:
-    print("Player #{} win!".format(win))
+    if win == -1:
+        print("Tie")
+    else:
+        print("Player #{} win!".format(win))
