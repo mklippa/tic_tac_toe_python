@@ -1,7 +1,11 @@
-# first_sign = ""
-# while first_sign not in ["X", "O"]:
-#     first_sign = input("X or O? ")
-# print("Congrats!")
+players = {1: "", 2: ""}
+while players[1] not in ["X", "O"]:
+    players[1] = input("X or O? ")
+
+if players[1] == "X":
+    players[2] = "O"
+else:
+    players[2] = "X"
 
 line = "*************"
 division = "*   *   *   *"
@@ -17,8 +21,6 @@ points = {
     8: (2, 6),
     9: (2, 10),
 }
-
-steps = [("X", points[1]), ("O", points[5]), ("X", points[9])]
 
 
 def print_field():
@@ -38,5 +40,27 @@ def print_field():
                 print(answer)
             else:
                 print(division)
+
+
+def check():
+    return True
+
+
+# steps = [("X", points[1]), ("O", points[5]), ("X", points[9])]
+# steps = {1:"X",2:"O"}
+steps = []
+curPlayer = 1
+while check():
+    turn = 0
+    while turn not in range(1, 10) and steps:
+        turn = int(input("Player #{}, please, endter a num from 1 to 9 ".format(curPlayer)))
+    steps.append((players[curPlayer], points[turn]))
+    print_field()
+    if curPlayer == 1:
+        curPlayer = 2
+    else:
+        curPlayer = 1
+else:
+    pass
 
 print_field()
