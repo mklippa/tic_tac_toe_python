@@ -22,21 +22,24 @@ points = {
     9: (2, 10),
 }
 
+# steps = [("X", points[1]), ("O", points[5]), ("X", points[9])]
+# steps = {5: 1, 6: 2}
+
 
 def print_field():
     for row in range(0, 13):
         if row % 4 == 0:
             print(line)
         else:
-            row_steps = list(filter(lambda step: step[1][0] == row, steps))
-            if len(row_steps) != 0:
+            positions = list(
+                filter(lambda position: points[position][0] == row, steps.keys())
+            )
+            if len(positions) != 0:
                 answer = division
-                for row_step in row_steps:
-                    answer = (
-                        answer[: row_step[1][1]]
-                        + row_step[0]
-                        + answer[row_step[1][1] + 1 :]
-                    )
+                for position in positions:
+                    point = points[position]
+                    letter = players[steps[position]]
+                    answer = answer[: point[1]] + letter + answer[point[1] + 1 :]
                 print(answer)
             else:
                 print(division)
@@ -46,15 +49,15 @@ def check():
     return True
 
 
-# steps = [("X", points[1]), ("O", points[5]), ("X", points[9])]
-# steps = {1:"X",2:"O"}
-steps = []
+steps = {}
 curPlayer = 1
 while check():
     turn = 0
-    while turn not in range(1, 10) and steps:
-        turn = int(input("Player #{}, please, endter a num from 1 to 9 ".format(curPlayer)))
-    steps.append((players[curPlayer], points[turn]))
+    while turn not in range(1, 10) or turn in steps.keys():
+        turn = int(
+            input("Player #{}, please, endter a num from 1 to 9 ".format(curPlayer))
+        )
+    steps[turn] = curPlayer
     print_field()
     if curPlayer == 1:
         curPlayer = 2
