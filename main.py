@@ -45,13 +45,38 @@ def print_field():
                 print(division)
 
 
+win_combinations = (
+    (7, 8, 9),
+    (4, 5, 6),
+    (1, 2, 3),
+    (7, 4, 1),
+    (8, 5, 2),
+    (9, 6, 3),
+    (7, 5, 3),
+    (1, 5, 9),
+)
+
+
 def check():
-    return True
+    p1 = []
+    p2 = []
+    for key in steps:
+        if steps[key] == 1:
+            p1.append(key)
+        else:
+            p2.append(key)
+    for comb in win_combinations:
+        if len([n for n in p1 if n in comb]) == 3:
+            return 1
+        elif len([n for n in p2 if n in comb]) == 3:
+            return 2
+    return 0
 
 
 steps = {}
 curPlayer = 1
-while check():
+win = 0
+while win == 0:
     turn = 0
     while turn not in range(1, 10) or turn in steps.keys():
         turn = int(
@@ -63,7 +88,6 @@ while check():
         curPlayer = 2
     else:
         curPlayer = 1
+    win = check()
 else:
-    pass
-
-print_field()
+    print("Player #{} win!".format(win))
